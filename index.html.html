@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Oligarchy — Independent research platform exploring crime, human behaviour, and systems of power.">
+<meta property="og:title" content="The Oligarchy">
+<meta property="og:description" content="Research · Analysis · Critical Thinking">
+<meta property="og:url" content="https://theoligarchy.in">
+<title>The Oligarchy</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0a0a0a;--navy:#070d1a;--midnight:#040810;
+  --paper:#e8dfc8;--paper-dim:rgba(232,223,200,0.6);--paper-muted:rgba(232,223,200,0.35);
+  --blood:#8b1a1a;--blood-light:#a82020;--gold:#b8962a;--gold-light:#d4ae40;
+  --border:rgba(232,223,200,0.08);--border-mid:rgba(232,223,200,0.14);
+  --surface:var(--navy);--bg:var(--midnight);--text:var(--paper);
+  --text-dim:var(--paper-dim);--text-muted:var(--paper-muted);
+  --card-bg:var(--navy);
+}
+[data-theme="light"]{
+  --bg:#f0e8d0;--surface:#fff8ee;--text:#1a1208;
+  --text-dim:rgba(26,18,8,0.75);--text-muted:rgba(26,18,8,0.45);
+  --border:rgba(26,18,8,0.1);--border-mid:rgba(26,18,8,0.18);
+  --card-bg:#fff8ee;--navy:#fff8ee;--midnight:#f0e8d0;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Text',Georgia,serif;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;}
+
+.scroll-progress{position:fixed;top:0;left:0;height:3px;background:var(--blood);z-index:9999;width:0%;transition:width 0.1s;}
+.theme-toggle{position:fixed;bottom:2rem;right:2rem;z-index:500;width:46px;height:46px;border-radius:50%;background:var(--blood);border:none;color:var(--paper);font-size:1.1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:all 0.3s;}
+.theme-toggle:hover{background:var(--blood-light);transform:scale(1.08);}
+
+/* MASTHEAD */
+.masthead{background:var(--ink);text-align:center;border-bottom:3px double #333;}
+[data-theme="light"] .masthead{background:var(--ink);}
+.masthead-top{font-family:'Inter',sans-serif;font-size:0.58rem;color:rgba(232,223,200,0.4);letter-spacing:0.18em;text-transform:uppercase;padding:0.45rem 2rem;border-bottom:1px solid rgba(232,223,200,0.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.3rem;}
+.masthead-title{font-family:'UnifrakturMaguntia',cursive;font-size:clamp(3rem,9vw,6rem);color:var(--paper);line-height:1;padding:0.25rem 0;}
+.masthead-sub{font-family:'Crimson Text',serif;font-size:0.78rem;font-style:italic;color:rgba(232,223,200,0.4);letter-spacing:0.05em;padding:0.3rem 0 0.5rem;}
+.masthead-rule{display:flex;border-top:1px solid rgba(232,223,200,0.15);border-bottom:1px solid rgba(232,223,200,0.15);}
+.masthead-rule span{font-family:'Inter',sans-serif;font-size:0.52rem;color:rgba(232,223,200,0.3);letter-spacing:0.2em;text-transform:uppercase;flex:1;text-align:center;padding:0.3rem 0;border-right:1px solid rgba(232,223,200,0.08);}
+.masthead-rule span:last-child{border-right:none;}
+
+/* NAV */
+nav.main-nav{background:var(--ink);border-bottom:1px solid var(--blood);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;padding:0 1rem;}
+.nav-links{display:flex;flex-wrap:wrap;}
+.nav-item{font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--paper-muted);padding:0.85rem 1.2rem;border-right:1px solid #1a1a1a;transition:all 0.25s;cursor:pointer;white-space:nowrap;}
+.nav-item:first-child{border-left:1px solid #1a1a1a;}
+.nav-item:hover,.nav-item.active{background:var(--blood);color:var(--paper);}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:1rem;cursor:pointer;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--paper-muted);transition:all 0.3s;}
+.nav-search{display:flex;align-items:center;padding:0 1rem;gap:0.5rem;}
+.nav-search-input{background:rgba(232,223,200,0.06);border:1px solid rgba(232,223,200,0.12);color:var(--paper);font-family:'Crimson Text',serif;font-size:0.9rem;padding:0.4rem 0.8rem;outline:none;width:180px;transition:all 0.3s;}
+.nav-search-input:focus{border-color:rgba(139,26,26,0.5);width:220px;}
+.nav-search-input::placeholder{color:rgba(232,223,200,0.25);}
+.mobile-menu{display:none;background:var(--ink);border-bottom:1px solid var(--blood);flex-direction:column;}
+.mobile-menu.open{display:flex;}
+.mobile-menu .nav-item{border-right:none;border-bottom:1px solid #1a1a1a;padding:1rem 1.5rem;}
+.mobile-menu .nav-item:first-child{border-left:none;}
+
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
+
+/* HERO */
+.hero{min-height:80vh;background:var(--surface);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:5rem 2rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(139,26,26,0.12) 0%,transparent 60%);}
+.hero-eyebrow{font-family:'Inter',sans-serif;font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--blood);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;position:relative;z-index:1;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:40px;height:1px;background:var(--blood);}
+.hero-headline{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,4.5rem);font-weight:900;color:var(--text);line-height:1.1;margin-bottom:1.2rem;max-width:800px;position:relative;z-index:1;min-height:1.2em;}
+.hero-headline em{font-style:italic;color:var(--gold-light);}
+.hero-desc{font-family:'Crimson Text',serif;font-size:1.1rem;color:var(--text-dim);line-height:1.85;max-width:560px;margin-bottom:2.5rem;position:relative;z-index:1;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;}
+.btn-primary{font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;background:var(--blood);color:var(--paper);border:none;padding:0.9rem 2.2rem;transition:all 0.3s;}
+.btn-primary:hover{background:var(--blood-light);transform:translateY(-2px);}
+.btn-ghost{font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;background:transparent;color:var(--text-muted);border:1px solid var(--border-mid);padding:0.9rem 2.2rem;transition:all 0.3s;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+
+/* FEATURED */
+.featured-section{background:var(--bg);padding:3rem 3rem 0;}
+.featured-wrap{max-width:1100px;margin:0 auto;}
+.section-label{font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;color:var(--blood);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;justify-content:center;}
+.section-label::before,.section-label::after{content:'';flex:1;height:1px;background:rgba(139,26,26,0.3);}
+.featured-card{background:var(--card-bg);border:1px solid var(--border-mid);display:grid;grid-template-columns:1fr 2fr;cursor:pointer;transition:all 0.3s;overflow:hidden;}
+.featured-card:hover{border-color:rgba(139,26,26,0.4);}
+.featured-left{background:linear-gradient(135deg,rgba(139,26,26,0.3),rgba(7,13,26,0.8));display:flex;flex-direction:column;justify-content:flex-end;padding:2.5rem;min-height:260px;}
+.featured-badge{font-family:'Inter',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);background:rgba(184,150,42,0.15);border:1px solid rgba(184,150,42,0.3);padding:0.3rem 0.8rem;display:inline-block;margin-bottom:0.8rem;width:fit-content;}
+.featured-cat{font-family:'Inter',sans-serif;font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--paper-muted);}
+.featured-right{padding:2.5rem;}
+.featured-title{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:900;color:var(--text);line-height:1.2;margin-bottom:1rem;}
+.featured-excerpt{font-family:'Crimson Text',serif;font-size:1rem;color:var(--text-dim);line-height:1.8;margin-bottom:1.5rem;}
+.featured-meta{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;}
+.featured-date{font-family:'Inter',sans-serif;font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);}
+.featured-read{font-family:'Inter',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--blood);display:inline-flex;align-items:center;gap:0.4rem;}
+.featured-read::after{content:'→';}
+.no-featured{background:var(--card-bg);border:1px dashed var(--border-mid);padding:2.5rem;text-align:center;}
+.no-featured p{font-family:'Crimson Text',serif;font-style:italic;color:var(--text-muted);}
+
+/* CATEGORIES */
+.categories{background:var(--bg);padding:3rem;}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);max-width:1100px;margin:0 auto;}
+.cat-card{background:var(--card-bg);padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all 0.3s;border-top:2px solid transparent;position:relative;overflow:hidden;}
+.cat-card:hover{background:var(--surface);border-top-color:var(--blood);}
+.cat-preview{position:absolute;bottom:0;left:0;right:0;background:rgba(139,26,26,0.95);padding:0.8rem 1rem;transform:translateY(100%);transition:transform 0.3s;text-align:left;}
+.cat-card:hover .cat-preview{transform:translateY(0);}
+.cat-preview-title{font-family:'Playfair Display',serif;font-size:0.8rem;font-weight:700;color:var(--paper);line-height:1.3;}
+.cat-preview-label{font-family:'Inter',sans-serif;font-size:0.45rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,223,200,0.6);margin-bottom:0.3rem;}
+.cat-icon{font-size:1.6rem;margin-bottom:0.8rem;display:block;}
+.cat-name{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;font-style:italic;color:var(--text);margin-bottom:0.4rem;}
+.cat-count{font-family:'Inter',sans-serif;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);}
+
+/* BLOG + SIDEBAR */
+.blog-with-sidebar{background:var(--bg);padding:3rem 3rem 5rem;display:grid;grid-template-columns:1fr 300px;gap:3rem;max-width:1300px;margin:0 auto;}
+.blog-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border-mid);}
+.blog-header h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;font-style:italic;color:var(--text);}
+.blog-filters{display:flex;gap:0.4rem;flex-wrap:wrap;}
+.filter-btn{font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;background:transparent;color:var(--text-muted);border:1px solid var(--border);padding:0.3rem 0.8rem;transition:all 0.25s;}
+.filter-btn:hover,.filter-btn.active{background:var(--blood);color:var(--paper);border-color:var(--blood);}
+.posts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);}
+.post-card{background:var(--card-bg);padding:1.8rem;display:flex;flex-direction:column;cursor:pointer;transition:background 0.3s;}
+.post-card:hover{background:var(--surface);}
+.post-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;}
+.post-tags{display:flex;gap:0.3rem;flex-wrap:wrap;}
+.post-tag{font-family:'Inter',sans-serif;font-size:0.48rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;padding:0.18rem 0.55rem;border:1px solid;}
+.tag-criminology{color:#e88;border-color:rgba(200,80,80,0.4);background:rgba(139,26,26,0.12);}
+.tag-psyche{color:#c9a8f0;border-color:rgba(90,40,160,0.4);background:rgba(90,40,160,0.1);}
+.tag-politics{color:#7aacee;border-color:rgba(30,80,160,0.4);background:rgba(30,80,160,0.1);}
+.tag-case-study{color:var(--gold-light);border-color:rgba(184,150,42,0.4);background:rgba(184,150,42,0.08);}
+.tag-research-note{color:#8bc4a8;border-color:rgba(60,140,100,0.4);background:rgba(60,140,100,0.08);}
+.post-date{font-family:'Inter',sans-serif;font-size:0.5rem;color:var(--text-muted);}
+.post-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:0.7rem;flex:1;}
+.post-excerpt{font-family:'Crimson Text',serif;font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1.1rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.post-meta{display:flex;justify-content:space-between;align-items:center;margin-top:auto;}
+.post-views{font-family:'Inter',sans-serif;font-size:0.5rem;color:var(--text-muted);}
+.post-read{font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blood);}
+.post-read::after{content:' →';}
+.no-posts{grid-column:1/-1;text-align:center;padding:4rem 2rem;background:var(--card-bg);}
+.no-posts p{font-family:'Crimson Text',serif;font-size:1.05rem;color:var(--text-muted);font-style:italic;}
+.load-more-wrap{text-align:center;margin-top:2rem;}
+.btn-load-more{font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;background:transparent;color:var(--text-muted);border:1px solid var(--border-mid);padding:0.8rem 2rem;transition:all 0.3s;}
+.btn-load-more:hover{border-color:var(--blood);color:var(--text);}
+
+/* SIDEBAR */
+.sidebar-widget{background:var(--card-bg);border:1px solid var(--border);margin-bottom:1.5rem;overflow:hidden;}
+.widget-head{font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--paper);background:var(--blood);padding:0.65rem 1.2rem;}
+.widget-body{padding:1.2rem;}
+.reading-item{display:flex;gap:0.8rem;align-items:flex-start;padding:0.7rem 0;border-bottom:1px solid var(--border);}
+.reading-item:last-child{border-bottom:none;}
+.reading-num{font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:700;color:var(--blood);min-width:18px;}
+.reading-title{font-family:'Playfair Display',serif;font-size:0.88rem;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:0.2rem;}
+.reading-author{font-family:'Inter',sans-serif;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
+.social-links{display:flex;flex-direction:column;gap:0.6rem;}
+.social-link{display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0.8rem;border:1px solid var(--border);transition:all 0.25s;cursor:pointer;}
+.social-link:hover{border-color:var(--blood);background:rgba(139,26,26,0.08);}
+.social-icon{font-size:1rem;min-width:20px;text-align:center;}
+.social-name{font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);}
+.social-handle{font-family:'Crimson Text',serif;font-size:0.8rem;color:var(--text-muted);}
+
+/* NEWSLETTER */
+.newsletter-section{background:var(--surface);padding:4rem 3rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.newsletter-inner{max-width:600px;margin:0 auto;text-align:center;}
+.newsletter-inner h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;font-style:italic;color:var(--text);margin-bottom:0.6rem;}
+.newsletter-inner p{font-family:'Crimson Text',serif;font-size:1rem;color:var(--text-dim);line-height:1.75;margin-bottom:2rem;}
+.newsletter-form{display:flex;max-width:440px;margin:0 auto;}
+.newsletter-input{flex:1;background:var(--bg);border:1px solid var(--border-mid);border-right:none;color:var(--text);padding:0.85rem 1.2rem;font-family:'Crimson Text',serif;font-size:1rem;outline:none;}
+.newsletter-input::placeholder{color:var(--text-muted);}
+.newsletter-btn{background:var(--blood);color:var(--paper);border:none;padding:0.85rem 1.5rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;transition:background 0.3s;white-space:nowrap;}
+.newsletter-btn:hover{background:var(--blood-light);}
+.newsletter-note{font-family:'Crimson Text',serif;font-size:0.78rem;color:var(--text-muted);margin-top:0.8rem;font-style:italic;}
+#newsletter-ok{display:none;color:#8bc4a8;font-family:'Crimson Text',serif;margin-top:1rem;font-style:italic;}
+
+/* ABOUT */
+.about-section{background:var(--surface);padding:5rem 3rem;border-top:1px solid var(--border);}
+.about-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.about-eyebrow{font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--blood);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.8rem;}
+.about-eyebrow::before{content:'';width:24px;height:1px;background:var(--blood);}
+.about-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;font-style:italic;color:var(--text);margin-bottom:1.5rem;line-height:1.15;}
+.about-section p{font-family:'Crimson Text',serif;font-size:1rem;color:var(--text-dim);line-height:1.85;margin-bottom:1rem;}
+.about-sig{font-family:'UnifrakturMaguntia',cursive;font-size:1.8rem;color:var(--blood);display:block;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-mid);}
+.author-card{background:var(--card-bg);padding:2.5rem;border:1px solid var(--border);}
+.author-avatar{width:70px;height:70px;border-radius:50%;background:var(--blood);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--paper);margin-bottom:1.2rem;}
+.author-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.3rem;}
+.author-role{font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--blood);margin-bottom:1rem;}
+.author-bio{font-family:'Crimson Text',serif;font-size:0.95rem;color:var(--text-muted);line-height:1.75;margin-bottom:1.2rem;}
+.author-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.2rem;}
+.author-tags span{font-family:'Inter',sans-serif;font-size:0.5rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;border:1px solid var(--border-mid);color:var(--text-muted);padding:0.25rem 0.6rem;}
+.author-socials{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.author-social-btn{font-family:'Inter',sans-serif;font-size:0.5rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;background:transparent;border:1px solid var(--border-mid);color:var(--text-muted);padding:0.35rem 0.75rem;transition:all 0.25s;display:inline-flex;align-items:center;gap:0.4rem;}
+.author-social-btn:hover{border-color:var(--blood);color:var(--text);}
+
+/* TIPS */
+.tips-section{background:var(--bg);padding:5rem 3rem;border-top:1px solid var(--border);}
+.tips-inner{max-width:800px;margin:0 auto;}
+.tips-header{text-align:center;margin-bottom:3rem;}
+.tips-header h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;font-style:italic;color:var(--text);margin-bottom:0.8rem;}
+.tips-header p{font-family:'Crimson Text',serif;font-size:1rem;color:var(--text-muted);line-height:1.75;max-width:520px;margin:0 auto;}
+.tip-form{background:rgba(232,223,200,0.02);border:1px solid var(--border-mid);padding:2.5rem;}
+.tip-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tip-field{margin-bottom:1rem;}
+.tip-label{font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:0.5rem;}
+.tip-input,.tip-textarea{width:100%;background:rgba(232,223,200,0.03);border:1px solid var(--border-mid);color:var(--text);padding:0.75rem 1rem;font-family:'Crimson Text',serif;font-size:0.95rem;outline:none;transition:border-color 0.3s;}
+.tip-input:focus,.tip-textarea:focus{border-color:rgba(139,26,26,0.5);}
+.tip-input::placeholder,.tip-textarea::placeholder{color:var(--text-muted);}
+.tip-textarea{min-height:130px;resize:vertical;}
+.tip-submit{width:100%;background:var(--blood);color:var(--paper);border:none;padding:1rem;font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.3s;margin-top:0.5rem;}
+.tip-submit:hover{background:var(--blood-light);}
+
+/* ARTICLE */
+.article-page{background:var(--bg);min-height:100vh;padding:4rem 2rem 6rem;}
+.article-layout{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 280px;gap:3rem;align-items:start;}
+.article-back{font-family:'Inter',sans-serif;font-size:0.62rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);background:transparent;border:1px solid var(--border);padding:0.5rem 1rem;margin-bottom:3rem;transition:all 0.25s;display:inline-flex;align-items:center;gap:0.5rem;}
+.article-back::before{content:'←';}
+.article-back:hover{border-color:var(--blood);color:var(--text);}
+.article-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:var(--text);line-height:1.15;margin-bottom:1.2rem;}
+.article-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:0.8rem;}
+.article-byline{font-family:'Inter',sans-serif;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);padding-bottom:1.5rem;border-bottom:1px solid var(--border-mid);margin-bottom:2.5rem;}
+.article-progress-wrap{background:var(--border);height:3px;width:100%;margin-bottom:2.5rem;}
+.article-progress-bar{height:100%;background:var(--blood);width:0%;transition:width 0.1s;}
+.article-body{font-family:'Crimson Text',serif;font-size:1.12rem;line-height:1.9;color:var(--text-dim);}
+.article-body p{margin-bottom:1.4rem;}
+.article-body h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--text);margin:2.5rem 0 1rem;border-left:3px solid var(--blood);padding-left:1rem;}
+.article-body h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;font-style:italic;color:var(--text);margin:2rem 0 0.8rem;}
+.article-body blockquote{border-left:3px solid var(--blood);padding:0.8rem 1.5rem;margin:2rem 0;background:rgba(139,26,26,0.06);}
+.article-body blockquote p{font-style:italic;color:var(--text-dim);margin:0;}
+.article-body ul,.article-body ol{padding-left:1.5rem;margin-bottom:1.4rem;}
+.article-body li{margin-bottom:0.5rem;}
+.article-body strong{color:var(--text);}
+.article-sticky-sidebar{position:sticky;top:80px;}
+.related-widget{background:var(--card-bg);border:1px solid var(--border);overflow:hidden;}
+.related-head{font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--paper);background:var(--blood);padding:0.65rem 1.2rem;}
+.related-list{list-style:none;}
+.related-list li{border-bottom:1px solid var(--border);}
+.related-list li:last-child{border-bottom:none;}
+.related-list a{display:block;padding:1rem 1.2rem;transition:background 0.25s;cursor:pointer;}
+.related-list a:hover{background:var(--surface);}
+.related-post-title{font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--text);line-height:1.3;}
+
+/* ADMIN */
+.admin-page{background:var(--midnight);min-height:100vh;}
+.admin-login-wrap{max-width:420px;margin:10vh auto;padding:3rem;background:var(--navy);border:1px solid var(--border-mid);}
+.admin-login-wrap h1{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;font-style:italic;color:var(--paper);margin-bottom:0.5rem;}
+.admin-login-wrap p{font-family:'Crimson Text',serif;font-size:0.9rem;color:var(--paper-muted);margin-bottom:2rem;}
+.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+.admin-sidebar{background:var(--navy);border-right:1px solid var(--border);padding:2rem 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sidebar-brand{font-family:'UnifrakturMaguntia',cursive;font-size:1.5rem;color:var(--paper-dim);padding:0 1.5rem 2rem;border-bottom:1px solid var(--border);display:block;}
+.sidebar-nav{list-style:none;padding:1rem 0;}
+.sidebar-nav li span{display:flex;align-items:center;gap:0.8rem;padding:0.9rem 1.5rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--paper-muted);cursor:pointer;transition:all 0.25s;border-left:2px solid transparent;}
+.sidebar-nav li span:hover,.sidebar-nav li.active span{color:var(--paper);background:rgba(139,26,26,0.1);border-left-color:var(--blood);}
+.admin-main{padding:2.5rem;overflow-y:auto;}
+.admin-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border-mid);}
+.admin-topbar h1{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;font-style:italic;color:var(--paper);}
+.admin-panel{display:none;}
+.admin-panel.active{display:block;}
+.form-group{margin-bottom:1.5rem;}
+.form-label{font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--paper-muted);display:block;margin-bottom:0.5rem;}
+.form-input{width:100%;background:rgba(232,223,200,0.03);border:1px solid var(--border-mid);color:var(--paper);padding:0.75rem 1rem;font-family:'Crimson Text',serif;font-size:1rem;outline:none;transition:border-color 0.3s;}
+.form-input:focus{border-color:rgba(139,26,26,0.5);}
+.form-input::placeholder{color:rgba(232,223,200,0.2);}
+.form-select{font-family:'Inter',sans-serif;font-size:0.85rem;background:var(--navy);}
+.form-select option{background:var(--navy);}
+.form-textarea{min-height:280px;resize:vertical;line-height:1.7;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:2.5rem;}
+.stat-card{background:var(--navy);padding:1.8rem;text-align:center;}
+.stat-number{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--paper);display:block;}
+.stat-label{font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--paper-muted);margin-top:0.3rem;display:block;}
+.posts-table{width:100%;border-collapse:collapse;}
+.posts-table th{font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--paper-muted);padding:0.8rem 1rem;border-bottom:1px solid var(--border-mid);text-align:left;}
+.posts-table td{font-family:'Crimson Text',serif;font-size:0.95rem;color:var(--paper-dim);padding:1rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+.btn-save{background:var(--blood);color:var(--paper);border:none;padding:0.9rem 2rem;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.3s;}
+.btn-save:hover{background:var(--blood-light);}
+.btn-draft{background:transparent;color:var(--gold);border:1px solid rgba(184,150,42,0.4);padding:0.9rem 2rem;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;transition:all 0.3s;}
+.btn-draft:hover{background:rgba(184,150,42,0.1);}
+.btn-danger{background:transparent;color:#e88;border:1px solid rgba(200,80,80,0.3);padding:0.45rem 0.9rem;font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;transition:all 0.3s;}
+.btn-danger:hover{background:rgba(139,26,26,0.2);}
+.btn-edit{background:transparent;color:var(--gold);border:1px solid rgba(184,150,42,0.3);padding:0.45rem 0.9rem;font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;transition:all 0.3s;margin-right:0.4rem;}
+.btn-edit:hover{background:rgba(184,150,42,0.1);}
+.btn-publish-toggle{background:transparent;border:1px solid;padding:0.35rem 0.7rem;font-family:'Inter',sans-serif;font-size:0.5rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;transition:all 0.3s;}
+.status-published{color:#8bc4a8;border-color:rgba(100,180,100,0.4);}
+.status-draft{color:#f0c060;border-color:rgba(220,180,60,0.4);}
+.alert{padding:1rem 1.5rem;margin-bottom:1.5rem;font-family:'Crimson Text',serif;font-size:0.95rem;border-left:3px solid;}
+.alert-success{background:rgba(40,100,60,0.1);border-color:#4a8;color:#8bc4a8;}
+.alert-error{background:rgba(139,26,26,0.1);border-color:var(--blood);color:#e88;}
+.tags-input-wrap{display:flex;flex-wrap:wrap;gap:0.4rem;background:rgba(232,223,200,0.03);border:1px solid var(--border-mid);padding:0.5rem;min-height:46px;align-items:center;cursor:text;}
+.tag-chip{font-family:'Inter',sans-serif;font-size:0.5rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;background:rgba(139,26,26,0.2);border:1px solid rgba(139,26,26,0.4);color:#e88;padding:0.2rem 0.5rem;display:inline-flex;align-items:center;gap:0.35rem;}
+.tag-chip button{background:none;border:none;color:#e88;font-size:0.7rem;padding:0;cursor:pointer;}
+.tags-text-input{background:none;border:none;color:var(--paper);font-family:'Crimson Text',serif;font-size:0.9rem;outline:none;min-width:80px;flex:1;}
+
+/* EXPORT MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;display:flex;align-items:center;justify-content:center;padding:2rem;}
+.modal-box{background:var(--navy);border:1px solid var(--border-mid);max-width:640px;width:100%;max-height:80vh;overflow-y:auto;padding:2.5rem;}
+.modal-box h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;font-style:italic;color:var(--paper);margin-bottom:0.5rem;}
+.modal-box p{font-family:'Crimson Text',serif;font-size:0.95rem;color:var(--paper-muted);line-height:1.75;margin-bottom:1.5rem;}
+.modal-close{float:right;background:none;border:none;color:var(--paper-muted);font-size:1.5rem;cursor:pointer;margin-top:-0.5rem;}
+.step-block{background:rgba(232,223,200,0.03);border:1px solid var(--border);border-left:3px solid var(--blood);padding:1.2rem 1.5rem;margin-bottom:1rem;}
+.step-num{font-family:'Inter',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--blood);margin-bottom:0.4rem;}
+.step-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--paper);margin-bottom:0.4rem;}
+.step-desc{font-family:'Crimson Text',serif;font-size:0.88rem;color:var(--paper-muted);line-height:1.7;}
+.step-desc code{background:rgba(139,26,26,0.2);color:#e88;padding:0.1rem 0.4rem;font-size:0.82rem;font-family:monospace;}
+
+/* FOOTER */
+footer{background:var(--ink);padding:3rem;border-top:2px solid var(--blood);}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2rem;}
+.footer-brand-name{font-family:'UnifrakturMaguntia',cursive;font-size:1.8rem;color:var(--paper-dim);display:block;margin-bottom:0.6rem;}
+.footer-brand p{font-family:'Crimson Text',serif;font-size:0.85rem;color:rgba(232,223,200,0.3);line-height:1.7;margin-bottom:1rem;}
+.footer-socials{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.footer-social{font-size:1.1rem;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(232,223,200,0.12);transition:all 0.25s;cursor:pointer;}
+.footer-social:hover{border-color:var(--blood);background:rgba(139,26,26,0.15);}
+.footer-col h4{font-family:'Inter',sans-serif;font-size:0.52rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--blood);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(139,26,26,0.25);}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:0.5rem;}
+.footer-col span{font-family:'Crimson Text',serif;font-size:0.88rem;color:rgba(232,223,200,0.35);cursor:pointer;transition:color 0.25s;display:block;}
+.footer-col span:hover{color:var(--paper);}
+.footer-bottom{max-width:1100px;margin:0 auto;border-top:1px solid var(--border);padding-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-bottom span{font-family:'Inter',sans-serif;font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,223,200,0.2);}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn 0.4s ease forwards;}
+
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .blog-with-sidebar{grid-template-columns:1fr;padding:2rem 1.5rem 4rem;}
+  .blog-sidebar{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  .posts-grid{grid-template-columns:1fr;}
+  .cat-grid{grid-template-columns:1fr 1fr 1fr;}
+  .about-inner{grid-template-columns:1fr;gap:2rem;}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .article-layout{grid-template-columns:1fr;}
+  .article-sticky-sidebar{display:none;}
+  .featured-card{grid-template-columns:1fr;}
+  .featured-section,.categories,.newsletter-section,.about-section,.tips-section{padding-left:1.5rem;padding-right:1.5rem;}
+}
+@media(max-width:600px){
+  .cat-grid{grid-template-columns:1fr 1fr;}
+  .tip-row,.form-row,.form-row-3{grid-template-columns:1fr;}
+  .blog-sidebar{grid-template-columns:1fr;}
+  .newsletter-form{flex-direction:column;}
+  .newsletter-btn{width:100%;}
+  .footer-inner{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .admin-layout{grid-template-columns:1fr;}
+  .admin-sidebar{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scroll-bar"></div>
+<button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+
+<!-- MASTHEAD -->
+<header class="masthead" id="site-header">
+  <div class="masthead-top">
+    <span>theoligarchy.in</span>
+    <span>Independent Research Platform</span>
+    <span id="today-date"></span>
+  </div>
+  <div class="masthead-title">The Oligarchy</div>
+  <div class="masthead-sub">Research · Analysis · Critical Thinking</div>
+  <div class="masthead-rule">
+    <span>Criminology</span><span>Psyche</span><span>Politics</span>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="main-nav" id="main-nav">
+  <div class="nav-links" id="nav-desktop">
+    <span class="nav-item active" onclick="goHome()">Home</span>
+    <span class="nav-item" onclick="filterTo('criminology')">Criminology</span>
+    <span class="nav-item" onclick="filterTo('psyche')">Psyche</span>
+    <span class="nav-item" onclick="filterTo('politics')">Politics</span>
+    <span class="nav-item" onclick="scrollToAbout()">About</span>
+    <span class="nav-item" onclick="showAdmin()">⚙️ Admin</span>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-search">
+    <input class="nav-search-input" id="search-input" type="text" placeholder="Search articles..." oninput="liveSearch(this.value)">
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <span class="nav-item" onclick="goHome();closeMobileMenu()">Home</span>
+  <span class="nav-item" onclick="filterTo('criminology');closeMobileMenu()">Criminology</span>
+  <span class="nav-item" onclick="filterTo('psyche');closeMobileMenu()">Psyche</span>
+  <span class="nav-item" onclick="filterTo('politics');closeMobileMenu()">Politics</span>
+  <span class="nav-item" onclick="scrollToAbout();closeMobileMenu()">About</span>
+  <span class="nav-item" onclick="showAdmin();closeMobileMenu()">⚙️ Admin</span>
+</div>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-eyebrow">Independent Research</div>
+    <h1 class="hero-headline" id="hero-hl"></h1>
+    <p>An independent platform exploring crime, human behaviour, and systems of power. Through research, not headlines.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('blog-anchor').scrollIntoView({behavior:'smooth'})">Read Analyses</button>
+      <button class="btn-ghost" onclick="scrollToAbout()">About</button>
+    </div>
+  </section>
+
+  <section class="featured-section">
+    <div class="featured-wrap">
+      <div class="section-label">Featured</div>
+      <div id="featured-slot"></div>
+    </div>
+  </section>
+
+  <section class="categories">
+    <div class="section-label">Focus Areas</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="filterTo('criminology')">
+        <span class="cat-icon">⚖️</span>
+        <div class="cat-name">Criminology</div>
+        <div class="cat-count" id="cnt-criminology">—</div>
+        <div class="cat-preview"><div class="cat-preview-label">Latest</div><div class="cat-preview-title" id="prev-criminology">—</div></div>
+      </div>
+      <div class="cat-card" onclick="filterTo('psyche')">
+        <span class="cat-icon">🧠</span>
+        <div class="cat-name">Psyche</div>
+        <div class="cat-count" id="cnt-psyche">—</div>
+        <div class="cat-preview"><div class="cat-preview-label">Latest</div><div class="cat-preview-title" id="prev-psyche">—</div></div>
+      </div>
+      <div class="cat-card" onclick="filterTo('politics')">
+        <span class="cat-icon">🌐</span>
+        <div class="cat-name">Politics</div>
+        <div class="cat-count" id="cnt-politics">—</div>
+        <div class="cat-preview"><div class="cat-preview-label">Latest</div><div class="cat-preview-title" id="prev-politics">—</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="blog-with-sidebar" id="blog-anchor">
+    <div class="blog-main">
+      <div class="blog-header">
+        <h2 id="blog-heading">Latest Analyses</h2>
+        <div class="blog-filters">
+          <button class="filter-btn active" onclick="applyFilter('all',this)">All</button>
+          <button class="filter-btn" onclick="applyFilter('criminology',this)">Criminology</button>
+          <button class="filter-btn" onclick="applyFilter('psyche',this)">Psyche</button>
+          <button class="filter-btn" onclick="applyFilter('politics',this)">Politics</button>
+          <button class="filter-btn" onclick="applyFilter('case-study',this)">Case Studies</button>
+          <button class="filter-btn" onclick="applyFilter('research-note',this)">Research Notes</button>
+        </div>
+      </div>
+      <div id="posts-container"></div>
+      <div class="load-more-wrap" id="load-more-wrap" style="display:none;">
+        <button class="btn-load-more" onclick="loadMore()">Load More Articles</button>
+      </div>
+    </div>
+    <aside class="blog-sidebar">
+      <div class="sidebar-widget">
+        <div class="widget-head">📚 Currently Reading</div>
+        <div class="widget-body" id="reading-stack"></div>
+      </div>
+      <div class="sidebar-widget">
+        <div class="widget-head">🔗 Follow</div>
+        <div class="widget-body">
+          <div class="social-links">
+            <div class="social-link" onclick="openSocial('instagram')"><span class="social-icon">📸</span><div><div class="social-name">Instagram</div><div class="social-handle">@theoligarchy.in</div></div></div>
+            <div class="social-link" onclick="openSocial('twitter')"><span class="social-icon">𝕏</span><div><div class="social-name">X / Twitter</div><div class="social-handle">@TheOligarchy_</div></div></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="newsletter-section">
+    <div class="newsletter-inner">
+      <div class="section-label">Stay Informed</div>
+      <h2>The Research Brief</h2>
+      <p>New analyses, case studies, and research notes — straight to your inbox. No noise, just substance.</p>
+      <div class="newsletter-form">
+        <input type="email" class="newsletter-input" id="nl-email" placeholder="Your email address...">
+        <button class="newsletter-btn" onclick="subscribeNewsletter()">Subscribe →</button>
+      </div>
+      <div class="newsletter-note">No spam. Unsubscribe any time.</div>
+      <div id="newsletter-ok">✓ You're subscribed. Welcome to The Oligarchy.</div>
+    </div>
+  </section>
+
+  <section class="about-section" id="about-section">
+    <div class="about-inner">
+      <div>
+        <div class="about-eyebrow">About</div>
+        <h2>What is The Oligarchy?</h2>
+        <p>The Oligarchy is an independent research platform focused on criminology, psychology, and politics. It explores crime, human behaviour, and systems of power through articles and analysis.</p>
+        <p>The goal is to simplify complex topics through research, observation, and critical thinking. Not sensationalism. Just structured analysis made accessible.</p>
+        <p>Philosophy is not a separate category here. It runs through everything, from how we think about crime, to the psyche, to political systems.</p>
+        <span class="about-sig">The Oligarchy</span>
+      </div>
+      <div>
+        <div class="author-card">
+          <div class="author-avatar">P</div>
+          <div class="author-name">Priyasha Priyal Jena</div>
+          <div class="author-role">Founder &amp; Editor-in-Chief</div>
+          <p class="author-bio">Independent student researcher focused on criminology, financial crime, psychology, and geopolitical risk analysis. Building The Oligarchy as a long-term research publication.</p>
+          <div class="author-tags"><span>Financial Crime</span><span>Geopolitics</span><span>Criminology</span><span>Behavioural Psychology</span></div>
+          <div class="author-socials">
+            <button class="author-social-btn" onclick="openSocial('instagram')">📸 Instagram</button>
+            <button class="author-social-btn" onclick="openSocial('twitter')">𝕏 Twitter</button>
+            <button class="author-social-btn" onclick="openSocial('linkedin')">💼 LinkedIn</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tips-section">
+    <div class="tips-inner">
+      <div class="tips-header">
+        <h2>Submit a Research Tip</h2>
+        <p>Have a topic, case, or angle worth investigating? Submit here. You may remain anonymous.</p>
+      </div>
+      <div class="tip-form">
+        <div class="tip-row">
+          <div class="tip-field"><label class="tip-label">Subject</label><input type="text" class="tip-input" id="tip-subject" placeholder="Topic or category..."></div>
+          <div class="tip-field"><label class="tip-label">Contact (optional)</label><input type="text" class="tip-input" id="tip-contact" placeholder="Only if you want a reply"></div>
+        </div>
+        <div class="tip-field"><label class="tip-label">Your Submission *</label><textarea class="tip-textarea" id="tip-msg" placeholder="Describe the topic, angle, or information..."></textarea></div>
+        <button class="tip-submit" onclick="submitTip()">Submit →</button>
+        <div id="tip-ok" style="display:none;text-align:center;color:#8bc4a8;font-family:'Crimson Text',serif;margin-top:1rem;font-style:italic;">Thank you. Your tip has been received.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-brand-name">The Oligarchy</span>
+        <p>Independent research platform. No advertisers. No agenda. Just analysis.</p>
+        <div class="footer-socials">
+          <div class="footer-social" onclick="openSocial('instagram')">📸</div>
+          <div class="footer-social" onclick="openSocial('twitter')">𝕏</div>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Focus Areas</h4><ul>
+        <li><span onclick="filterTo('criminology')">Criminology</span></li>
+        <li><span onclick="filterTo('psyche')">Psyche</span></li>
+        <li><span onclick="filterTo('politics')">Politics</span></li>
+        <li><span onclick="filterTo('case-study')">Case Studies</span></li>
+        <li><span onclick="filterTo('research-note')">Research Notes</span></li>
+      </ul></div>
+      <div class="footer-col"><h4>Platform</h4><ul>
+        <li><span onclick="scrollToAbout()">About</span></li>
+        <li><span onclick="document.querySelector('.newsletter-section').scrollIntoView({behavior:'smooth'})">Newsletter</span></li>
+        <li><span onclick="showDeployGuide()">Deploy Guide</span></li>
+      </ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul>
+        <li><span>Disclaimer</span></li>
+        <li><span>Privacy Policy</span></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 The Oligarchy</span>
+      <span>theoligarchy.in</span>
+      <span>Independent · Analytical · Educational</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ══ ARTICLE ══ -->
+<div class="page" id="page-article">
+  <div class="article-page">
+    <div class="article-layout fade-in">
+      <div>
+        <button class="article-back" onclick="goHome()">Back to Analyses</button>
+        <div class="article-progress-wrap"><div class="article-progress-bar" id="art-prog-bar"></div></div>
+        <div id="article-content"></div>
+      </div>
+      <div class="article-sticky-sidebar">
+        <div class="related-widget">
+          <div class="related-head">Related Articles</div>
+          <ul class="related-list" id="related-list"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN ══ -->
+<div class="page" id="page-admin">
+  <div class="admin-page">
+    <div id="admin-login" style="display:flex;align-items:flex-start;justify-content:center;">
+      <div class="admin-login-wrap">
+        <h1>Admin Access</h1>
+        <p>The Oligarchy editorial dashboard.</p>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="admin-pw" placeholder="Enter admin password..." onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <div id="login-err" class="alert alert-error" style="display:none;">Incorrect password.</div>
+        <button class="btn-save" style="width:100%;margin-top:0.5rem;" onclick="doLogin()">Sign In →</button>
+      </div>
+    </div>
+    <div id="admin-dash" style="display:none;">
+      <div class="admin-layout">
+        <aside class="admin-sidebar">
+          <span class="sidebar-brand">The Oligarchy</span>
+          <ul class="sidebar-nav">
+            <li class="active" id="snav-write"><span onclick="switchPanel('write')">✏️ Write Post</span></li>
+            <li id="snav-posts"><span onclick="switchPanel('posts')">📋 All Posts</span></li>
+            <li id="snav-reading"><span onclick="switchPanel('reading')">📚 Reading Stack</span></li>
+            <li id="snav-stats"><span onclick="switchPanel('stats')">📊 Analytics</span></li>
+            <li id="snav-deploy"><span onclick="switchPanel('deploy')">🚀 Deploy Guide</span></li>
+            <li style="margin-top:2rem;"><span onclick="doLogout()" style="color:#e88 !important;">🚪 Logout</span></li>
+          </ul>
+        </aside>
+        <main class="admin-main">
+          <div class="admin-topbar">
+            <h1 id="panel-heading">Write Post</h1>
+            <span style="font-family:'Inter',sans-serif;font-size:0.6rem;color:var(--paper-muted);">theoligarchy.in</span>
+          </div>
+
+          <!-- WRITE -->
+          <div class="admin-panel active" id="panel-write">
+            <div id="write-alert"></div>
+            <input type="hidden" id="editing-id">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="f-title" placeholder="Article headline..."></div>
+              <div class="form-group"><label class="form-label">Category *</label>
+                <select class="form-input form-select" id="f-cat">
+                  <option value="">Select...</option>
+                  <option value="criminology">Criminology</option>
+                  <option value="psyche">Psyche</option>
+                  <option value="politics">Politics</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row-3">
+              <div class="form-group"><label class="form-label">Read Time</label><input type="text" class="form-input" id="f-readtime" placeholder="e.g. 8 min read"></div>
+              <div class="form-group"><label class="form-label">Post Type</label>
+                <select class="form-input form-select" id="f-type">
+                  <option value="">Standard</option>
+                  <option value="case-study">Case Study</option>
+                  <option value="research-note">Research Note</option>
+                </select>
+              </div>
+              <div class="form-group"><label class="form-label">Case # (optional)</label><input type="text" class="form-input" id="f-casenum" placeholder="e.g. 3"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tags</label>
+              <div class="tags-input-wrap" id="tags-wrap" onclick="document.getElementById('tag-input').focus()">
+                <input class="tags-text-input" id="tag-input" placeholder="Type tag, press Enter..." onkeydown="handleTagInput(event)">
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Pin as Featured?</label>
+              <select class="form-input form-select" id="f-featured"><option value="0">No</option><option value="1">Yes — Pin to homepage</option></select>
+            </div>
+            <div class="form-group"><label class="form-label">Excerpt * (homepage preview)</label><textarea class="form-input" style="min-height:70px;resize:vertical;" id="f-excerpt" placeholder="1-2 sentence summary..."></textarea></div>
+            <div class="form-group">
+              <label class="form-label">Full Content * — use HTML: &lt;p&gt; &lt;h2&gt; &lt;h3&gt; &lt;blockquote&gt; &lt;ul&gt;&lt;li&gt; &lt;strong&gt; &lt;em&gt;</label>
+              <textarea class="form-input form-textarea" id="f-content" placeholder="Write your full article here..."></textarea>
+            </div>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+              <button class="btn-save" onclick="publishPost('published')">Publish →</button>
+              <button class="btn-draft" onclick="publishPost('draft')">Save as Draft</button>
+              <button onclick="clearWriteForm()" style="background:transparent;color:var(--paper-muted);border:1px solid var(--border-mid);padding:0.9rem 1.5rem;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;">Clear</button>
+            </div>
+          </div>
+
+          <!-- ALL POSTS -->
+          <div class="admin-panel" id="panel-posts">
+            <div id="posts-alert"></div>
+            <div id="admin-posts-list"></div>
+          </div>
+
+          <!-- READING STACK -->
+          <div class="admin-panel" id="panel-reading">
+            <div id="reading-alert"></div>
+            <p style="font-family:'Crimson Text',serif;color:var(--paper-muted);margin-bottom:2rem;">Manage the "Currently Reading" sidebar widget (max 5 items).</p>
+            <div id="reading-list-admin"></div>
+            <div style="background:rgba(232,223,200,0.02);border:1px solid var(--border-mid);padding:1.5rem;margin-top:1.5rem;">
+              <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;font-style:italic;color:var(--paper);margin-bottom:1rem;">Add Book / Resource</h3>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="r-title" placeholder="Book or article title..."></div>
+                <div class="form-group"><label class="form-label">Author *</label><input type="text" class="form-input" id="r-author" placeholder="Author name..."></div>
+              </div>
+              <button class="btn-save" onclick="addReadingItem()">Add →</button>
+            </div>
+          </div>
+
+          <!-- ANALYTICS -->
+          <div class="admin-panel" id="panel-stats">
+            <div class="stats-grid">
+              <div class="stat-card"><span class="stat-number" id="s-posts">0</span><span class="stat-label">Published</span></div>
+              <div class="stat-card"><span class="stat-number" id="s-drafts">0</span><span class="stat-label">Drafts</span></div>
+              <div class="stat-card"><span class="stat-number" id="s-views">0</span><span class="stat-label">Total Views</span></div>
+              <div class="stat-card"><span class="stat-number" id="s-subs">0</span><span class="stat-label">Subscribers</span></div>
+            </div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;font-style:italic;color:var(--paper);margin-bottom:1.5rem;">Top Posts</h3>
+            <div id="top-posts"></div>
+          </div>
+
+          <!-- DEPLOY GUIDE -->
+          <div class="admin-panel" id="panel-deploy">
+            <p style="font-family:'Crimson Text',serif;color:var(--paper-muted);margin-bottom:2rem;font-size:1rem;line-height:1.75;">Follow these steps exactly to get theoligarchy.in live. Takes about 30–45 minutes total.</p>
+            <div class="step-block">
+              <div class="step-num">Step 1</div>
+              <div class="step-title">Download this site's code</div>
+              <div class="step-desc">Click the artifact's download/copy button in Claude. Save the file as <code>index.html</code> on your desktop.</div>
+            </div>
+            <div class="step-block">
+              <div class="step-num">Step 2</div>
+              <div class="step-title">Create a free GitHub account</div>
+              <div class="step-desc">Go to <code>github.com</code> → Sign up. Use any email. Verify your account.</div>
+            </div>
+            <div class="step-block">
+              <div class="step-num">Step 3</div>
+              <div class="step-title">Create a new repository</div>
+              <div class="step-desc">Click the <code>+</code> icon → New repository. Name it <code>theoligarchy</code>. Set it to Public. Click Create.</div>
+            </div>
+            <div class="step-block">
+              <div class="step-num">Step 4</div>
+              <div class="step-title">Upload your file</div>
+              <div class="step-desc">Inside the repository, click <code>Add file</code> → <code>Upload files</code>. Drag your <code>index.html</code> there. Commit changes.</div>
+            </div>
+            <div class="step-block">
+              <div class="step-num">Step 5</div>
+              <div class="step-title">Enable GitHub Pages</div>
+              <div class="step-desc">Go to Settings → Pages. Under Source, select <code>main</code> branch, <code>/ (root)</code>. Save. Your site goes live at <code>theoligarchy.github.io/theoligarchy</code></div>
+            </div>
+            <div class="step-block">
+              <div class="step-num">Step 6</div>
+              <div class="step-title">Connect your GoDaddy domain</div>
+              <div class="step-desc">In GitHub Pages settings, add custom domain: <code>theoligarchy.in</code>. Then go to GoDaddy → DNS Settings → Add these 4 A records pointing to GitHub's IPs: <code>185.199.108.153</code> <code>185.199.109.153</code> <code>185.199.110.153</code> <code>185.199.111.153</code>. Also add a CNAME record: <code>www</code> → <code>yourusername.github.io</code>. DNS takes up to 24 hours.</div>
+            </div>
+            <div class="step-block">
+              <div class="step-num">Step 7 — Posting Articles</div>
+              <div class="step-title">How to post after going live</div>
+              <div class="step-desc">Right now posts save in your browser only. To make posts visible to everyone: Write your article here in Admin → open the site on your own computer → go to Admin → write and publish → then download the updated <code>index.html</code> (it has the posts baked in via localStorage export) and re-upload to GitHub. OR — ask Claude to add a Google Sheets integration so posts sync automatically. That's the next upgrade.</div>
+            </div>
+            <div style="background:rgba(139,26,26,0.1);border:1px solid rgba(139,26,26,0.3);padding:1.5rem;margin-top:1.5rem;">
+              <div style="font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--blood);margin-bottom:0.5rem;">Important Note</div>
+              <div style="font-family:'Crimson Text',serif;font-size:0.9rem;color:var(--paper-muted);line-height:1.75;">The admin password is visible in the page source. For a public site this is fine for now — just don't share your password publicly. The real fix is a backend (Supabase/Firebase) which is a future upgrade.</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEPLOY MODAL (from footer link) -->
+<div id="deploy-modal" style="display:none;" class="modal-overlay" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('deploy-modal').style.display='none'">×</button>
+    <h2>Deploy Guide</h2>
+    <p>Sign in to Admin → Deploy Guide tab for the full step-by-step instructions to get theoligarchy.in live.</p>
+    <button class="btn-save" onclick="document.getElementById('deploy-modal').style.display='none';showAdmin()">Go to Admin →</button>
+  </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'Oligarchy@2025';
+const SOCIAL_LINKS = {
+  instagram:'https://www.instagram.com/theoligarchy.in?igsh=bjV4ZGhpdnJxbjV4',
+  twitter:'https://x.com/TheOligarchy_',
+  linkedin:'',
+  website:''
+};
+const PAGE_SIZE = 6;
+
+let posts        = JSON.parse(localStorage.getItem('tol_posts')   || '[]');
+let readingStack = JSON.parse(localStorage.getItem('tol_reading') || '[]');
+let subscribers  = JSON.parse(localStorage.getItem('tol_subs')    || '[]');
+let currentFilter = 'all';
+let currentPage = 1;
+let isAdmin = false;
+let currentTags = [];
+
+function save(){ localStorage.setItem('tol_posts', JSON.stringify(posts)); }
+function saveReading(){ localStorage.setItem('tol_reading', JSON.stringify(readingStack)); }
+function saveSubs(){ localStorage.setItem('tol_subs', JSON.stringify(subscribers)); }
+
+// DATE
+document.getElementById('today-date').textContent =
+  new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+// THEME
+function toggleTheme(){
+  const h=document.documentElement, isLight=h.getAttribute('data-theme')==='light';
+  h.setAttribute('data-theme',isLight?'dark':'light');
+  document.getElementById('theme-btn').textContent=isLight?'🌙':'☀️';
+  localStorage.setItem('tol_theme',isLight?'dark':'light');
+}
+(()=>{ const t=localStorage.getItem('tol_theme'); if(t==='light'){document.documentElement.setAttribute('data-theme','light');document.getElementById('theme-btn').textContent='☀️';} })();
+
+// MOBILE NAV
+function toggleMobileMenu(){
+  const m=document.getElementById('mobile-menu');
+  m.classList.toggle('open');
+}
+function closeMobileMenu(){ document.getElementById('mobile-menu').classList.remove('open'); }
+
+// HERO ROTATOR
+const headlines=['Understanding power.<br><em>Through research and analysis.</em>','Crime. Psyche. Politics.<br><em>Examined, not sensationalised.</em>','Independent research.<br><em>No advertisers. No agenda.</em>','The stories behind<br><em>systems of power.</em>'];
+let hlIdx=0;
+function rotateHeadline(){
+  const el=document.getElementById('hero-hl');
+  el.style.opacity='0';
+  setTimeout(()=>{ el.innerHTML=headlines[hlIdx]; el.style.transition='opacity 0.6s'; el.style.opacity='1'; hlIdx=(hlIdx+1)%headlines.length; },400);
+}
+rotateHeadline(); setInterval(rotateHeadline,5000);
+
+// SCROLL PROGRESS
+window.addEventListener('scroll',()=>{
+  const h=document.body.scrollHeight-window.innerHeight;
+  const pct=h>0?Math.round(window.scrollY/h*100):0;
+  document.getElementById('scroll-bar').style.width=pct+'%';
+});
+
+// SOCIAL
+function openSocial(p){ const u=SOCIAL_LINKS[p]; if(u&&u!=='#') window.open(u,'_blank'); }
+
+// ROUTING
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('site-header').style.display=id==='home'?'':'none';
+  window.scrollTo(0,0);
+}
+function goHome(){ showPage('home'); renderPosts(currentFilter); renderFeatured(); updateCounts(); }
+function showAdmin(){ showPage('admin'); }
+function showDeployGuide(){ document.getElementById('deploy-modal').style.display='flex'; }
+function scrollToAbout(){ goHome(); setTimeout(()=>document.getElementById('about-section').scrollIntoView({behavior:'smooth'}),120); }
+
+// SEARCH
+function liveSearch(q){
+  if(!q.trim()){ renderPosts(currentFilter); document.getElementById('blog-heading').textContent='Latest Analyses'; return; }
+  const r=posts.filter(p=>p.status!=='draft'&&(p.title.toLowerCase().includes(q.toLowerCase())||p.excerpt.toLowerCase().includes(q.toLowerCase())||(p.tags||[]).some(t=>t.toLowerCase().includes(q.toLowerCase()))));
+  renderPostCards(r,`Search: "${q}" — ${r.length} result${r.length!==1?'s':''}`);
+}
+
+// FEATURED
+function renderFeatured(){
+  const slot=document.getElementById('featured-slot');
+  const f=posts.find(p=>p.featured&&p.status!=='draft');
+  if(!f){ slot.innerHTML=`<div class="no-featured"><p>No featured post pinned yet. Set one from the Admin panel.</p></div>`; return; }
+  slot.innerHTML=`<div class="featured-card" onclick="openPost('${f.id}')">
+    <div class="featured-left">
+      <span class="featured-badge">★ Featured</span>
+      <span class="featured-cat">${cap(f.category)}${f.postType?' · '+postTypeLabel(f.postType):''}</span>
+    </div>
+    <div class="featured-right">
+      <div class="featured-title">${f.title}</div>
+      <div class="featured-excerpt">${f.excerpt}</div>
+      <div class="featured-meta">
+        <span class="featured-date">${f.date}</span>
+        <span class="featured-date">👁 ${f.views||0}</span>
+        <span class="featured-read">${f.readTime||'5 min read'}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+// BLOG RENDER
+function published(){ return posts.filter(p=>p.status!=='draft'); }
+
+function filteredList(filter){
+  let l=published();
+  if(filter==='all') return l;
+  if(['criminology','psyche','politics'].includes(filter)) return l.filter(p=>p.category===filter);
+  if(filter==='case-study') return l.filter(p=>p.postType==='case-study');
+  if(filter==='research-note') return l.filter(p=>p.postType==='research-note');
+  return l;
+}
+
+function renderPosts(filter='all'){
+  currentPage=1;
+  document.getElementById('blog-heading').textContent=filter==='all'?'Latest Analyses':cap(filter).replace('-',' ');
+  renderPostCards(filteredList(filter).slice(0,PAGE_SIZE*currentPage), null, filteredList(filter).length);
+  updateCounts();
+}
+
+function loadMore(){
+  currentPage++;
+  const list=filteredList(currentFilter);
+  renderPostCards(list.slice(0,PAGE_SIZE*currentPage),null,list.length);
+}
+
+function renderPostCards(list,heading,total){
+  if(heading) document.getElementById('blog-heading').textContent=heading;
+  const container=document.getElementById('posts-container');
+  if(!list.length){
+    container.innerHTML=`<div class="posts-grid"><div class="no-posts"><p>${posts.length?'No articles match this filter yet.':'No articles published yet. Go to Admin to write your first piece.'}</p></div></div>`;
+    document.getElementById('load-more-wrap').style.display='none';
+    return;
+  }
+  container.innerHTML=`<div class="posts-grid fade-in">${list.map(p=>`
+    <div class="post-card" onclick="openPost('${p.id}')">
+      <div class="post-card-top">
+        <div class="post-tags">
+          <span class="post-tag tag-${p.category}">${cap(p.category)}</span>
+          ${p.postType?`<span class="post-tag tag-${p.postType}">${postTypeLabel(p.postType)}</span>`:''}
+        </div>
+        <span class="post-date">${p.date}</span>
+      </div>
+      <div class="post-title">${p.postType==='case-study'&&p.caseNum?`Case Study #${p.caseNum}: `:''}${p.title}</div>
+      <div class="post-excerpt">${p.excerpt}</div>
+      <div class="post-meta">
+        <span class="post-views">👁 ${p.views||0} · ${(p.tags||[]).slice(0,2).join(', ')}</span>
+        <span class="post-read">${p.readTime||'5 min read'}</span>
+      </div>
+    </div>`).join('')}</div>`;
+  const lmw=document.getElementById('load-more-wrap');
+  lmw.style.display=(total&&list.length<total)?'block':'none';
+}
+
+function applyFilter(cat,btn){
+  currentFilter=cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderPosts(cat);
+}
+
+function filterTo(cat){
+  currentFilter=cat;
+  goHome();
+  setTimeout(()=>{
+    document.getElementById('blog-anchor').scrollIntoView({behavior:'smooth'});
+    const map={all:0,criminology:1,psyche:2,politics:3,'case-study':4,'research-note':5};
+    document.querySelectorAll('.filter-btn')[map[cat]||0]?.click();
+  },120);
+}
+
+function updateCounts(){
+  ['criminology','psyche','politics'].forEach(c=>{
+    const n=published().filter(p=>p.category===c).length;
+    const el=document.getElementById('cnt-'+c);
+    if(el) el.textContent=n===0?'No articles yet':`${n} article${n!==1?'s':''}`;
+    const latest=published().find(p=>p.category===c);
+    const prev=document.getElementById('prev-'+c);
+    if(prev) prev.textContent=latest?latest.title:'No articles yet';
+  });
+}
+
+// ARTICLE
+function openPost(id){
+  const post=posts.find(p=>p.id===id); if(!post) return;
+  post.views=(post.views||0)+1; save();
+  showPage('article');
+  const related=published().filter(p=>p.id!==id&&(p.category===post.category||p.postType===post.postType)).slice(0,4);
+  document.getElementById('related-list').innerHTML=related.length
+    ?related.map(r=>`<li><a onclick="openPost('${r.id}')"><span style="font-family:'Inter',sans-serif;font-size:0.45rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--blood);display:block;margin-bottom:0.2rem;">${cap(r.category)}</span><span class="related-post-title">${r.title}</span></a></li>`).join('')
+    :`<li style="padding:1rem 1.2rem;font-family:'Crimson Text',serif;font-style:italic;font-size:0.85rem;color:var(--text-muted);">No related articles yet.</li>`;
+  document.getElementById('article-content').innerHTML=`
+    <div class="article-meta">
+      <span class="post-tag tag-${post.category}">${cap(post.category)}</span>
+      ${post.postType?`<span class="post-tag tag-${post.postType}">${postTypeLabel(post.postType)}</span>`:''}
+      <span style="font-family:'Inter',sans-serif;font-size:0.58rem;color:var(--text-muted);">${post.date} · ${post.readTime||'5 min read'} · 👁 ${post.views}</span>
+    </div>
+    <h1 class="article-title">${post.postType==='case-study'&&post.caseNum?`Case Study #${post.caseNum}: `:''}${post.title}</h1>
+    <div class="article-byline">By Priyasha Priyal Jena · The Oligarchy · theoligarchy.in</div>
+    <div class="article-body">${post.content}</div>
+    <hr style="border:none;border-top:1px solid var(--border-mid);margin:3rem 0;">
+    ${(post.tags||[]).length?`<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.5rem;">${post.tags.map(t=>`<span class="post-tag" style="color:var(--text-muted);border-color:var(--border-mid);">${t}</span>`).join('')}</div>`:''}
+    <p style="font-family:'Inter',sans-serif;font-size:0.55rem;letter-spacing:0.1em;color:var(--text-muted);">All content published on The Oligarchy is for educational and research purposes only.</p>`;
+  const bar=document.getElementById('art-prog-bar');
+  function updateProg(){ const h=document.body.scrollHeight-window.innerHeight; bar.style.width=h>0?(window.scrollY/h*100)+'%':'0%'; }
+  window.removeEventListener('scroll',window._artScroll||null);
+  window._artScroll=updateProg;
+  window.addEventListener('scroll',updateProg);
+}
+
+// NEWSLETTER
+function subscribeNewsletter(){
+  const e=document.getElementById('nl-email').value.trim();
+  if(!e||!e.includes('@')){ alert('Please enter a valid email.'); return; }
+  if(!subscribers.includes(e)){ subscribers.push(e); saveSubs(); }
+  document.getElementById('nl-email').value='';
+  document.getElementById('newsletter-ok').style.display='block';
+  setTimeout(()=>document.getElementById('newsletter-ok').style.display='none',5000);
+}
+
+// TIP
+function submitTip(){
+  if(!document.getElementById('tip-msg').value.trim()){ alert('Please write your submission.'); return; }
+  ['tip-subject','tip-contact','tip-msg'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('tip-ok').style.display='block';
+  setTimeout(()=>document.getElementById('tip-ok').style.display='none',5000);
+}
+
+// READING STACK
+function renderReadingStack(){
+  const el=document.getElementById('reading-stack');
+  if(!readingStack.length){ el.innerHTML=`<p style="font-family:'Crimson Text',serif;font-style:italic;font-size:0.85rem;color:var(--text-muted);padding:0.5rem 0;">Add books from Admin panel.</p>`; return; }
+  el.innerHTML=readingStack.map((item,i)=>`<div class="reading-item"><span class="reading-num">${i+1}.</span><div><div class="reading-title">${item.title}</div><div class="reading-author">${item.author}</div></div></div>`).join('');
+}
+function renderReadingAdmin(){
+  const el=document.getElementById('reading-list-admin');
+  if(!readingStack.length){ el.innerHTML=`<p style="font-family:'Crimson Text',serif;color:var(--paper-muted);font-style:italic;">No items yet.</p>`; return; }
+  el.innerHTML=readingStack.map((item,i)=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(232,223,200,0.03);border:1px solid var(--border);padding:0.8rem 1rem;margin-bottom:0.5rem;">
+      <div><strong style="color:var(--paper);font-family:'Playfair Display',serif;">${item.title}</strong> <span style="font-family:'Inter',sans-serif;font-size:0.55rem;color:var(--paper-muted);">${item.author}</span></div>
+      <button class="btn-danger" onclick="removeReadingItem(${i})">Remove</button>
+    </div>`).join('');
+}
+function addReadingItem(){
+  const t=document.getElementById('r-title').value.trim(), a=document.getElementById('r-author').value.trim();
+  if(!t||!a){ showAlert('reading-alert','Fill in both fields.','error'); return; }
+  if(readingStack.length>=5){ showAlert('reading-alert','Max 5 items.','error'); return; }
+  readingStack.push({title:t,author:a}); saveReading();
+  document.getElementById('r-title').value=''; document.getElementById('r-author').value='';
+  renderReadingAdmin(); renderReadingStack();
+  showAlert('reading-alert','Added!','success');
+}
+function removeReadingItem(i){ readingStack.splice(i,1); saveReading(); renderReadingAdmin(); renderReadingStack(); }
+
+// TAGS
+function handleTagInput(e){
+  if(e.key==='Enter'||e.key===','){
+    e.preventDefault();
+    const v=e.target.value.trim().replace(',','');
+    if(v&&!currentTags.includes(v)){ currentTags.push(v); renderTagChips(); }
+    e.target.value='';
+  } else if(e.key==='Backspace'&&!e.target.value&&currentTags.length){ currentTags.pop(); renderTagChips(); }
+}
+function renderTagChips(){
+  const wrap=document.getElementById('tags-wrap'), inp=document.getElementById('tag-input');
+  wrap.innerHTML='';
+  currentTags.forEach((t,i)=>{ const c=document.createElement('span'); c.className='tag-chip'; c.innerHTML=`${t}<button onclick="removeTag(${i})">×</button>`; wrap.appendChild(c); });
+  wrap.appendChild(inp);
+}
+function removeTag(i){ currentTags.splice(i,1); renderTagChips(); }
+
+// ADMIN AUTH
+function doLogin(){
+  if(document.getElementById('admin-pw').value===ADMIN_PASSWORD){
+    isAdmin=true;
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-dash').style.display='block';
+    renderAdminPosts(); renderStats(); renderReadingAdmin();
+  } else {
+    document.getElementById('login-err').style.display='block';
+    setTimeout(()=>document.getElementById('login-err').style.display='none',3000);
+  }
+}
+function doLogout(){ isAdmin=false; document.getElementById('admin-pw').value=''; document.getElementById('admin-login').style.display='flex'; document.getElementById('admin-dash').style.display='none'; goHome(); }
+
+// PANEL SWITCH
+function switchPanel(name){
+  document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-nav li').forEach(l=>l.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.getElementById('snav-'+name).classList.add('active');
+  const titles={write:'Write Post',posts:'All Posts',reading:'Reading Stack',stats:'Analytics',deploy:'Deploy Guide'};
+  document.getElementById('panel-heading').textContent=titles[name]||'';
+  if(name==='posts') renderAdminPosts();
+  if(name==='stats') renderStats();
+  if(name==='reading') renderReadingAdmin();
+}
+
+// PUBLISH
+function publishPost(status){
+  const title=document.getElementById('f-title').value.trim();
+  const cat=document.getElementById('f-cat').value;
+  const excerpt=document.getElementById('f-excerpt').value.trim();
+  const content=document.getElementById('f-content').value.trim();
+  if(!title||!cat||!excerpt||!content){ showAlert('write-alert','Fill in all required fields.','error'); return; }
+  const featured=document.getElementById('f-featured').value==='1';
+  if(featured) posts.forEach(p=>p.featured=false);
+  const editId=document.getElementById('editing-id').value;
+  const data={title,category:cat,readTime:document.getElementById('f-readtime').value.trim()||'5 min read',postType:document.getElementById('f-type').value,caseNum:document.getElementById('f-casenum').value.trim(),excerpt,content,tags:[...currentTags],featured,status,date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})};
+  if(editId){ const idx=posts.findIndex(p=>p.id===editId); if(idx>-1) posts[idx]={...posts[idx],...data}; document.getElementById('editing-id').value=''; }
+  else posts.unshift({id:Date.now().toString(36),views:0,...data});
+  save(); clearWriteForm(); renderPosts(currentFilter); renderFeatured(); updateCounts();
+  showAlert('write-alert',status==='draft'?'Saved as draft.':'Article published!','success');
+}
+
+function clearWriteForm(){
+  ['f-title','f-cat','f-readtime','f-type','f-casenum','f-featured','f-excerpt','f-content','editing-id'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  currentTags=[]; renderTagChips();
+  document.getElementById('panel-heading').textContent='Write Post';
+}
+
+// ADMIN POSTS
+function renderAdminPosts(){
+  const c=document.getElementById('admin-posts-list');
+  if(!posts.length){ c.innerHTML=`<div style="text-align:center;padding:3rem;font-family:'Crimson Text',serif;color:var(--paper-muted);font-style:italic;">No posts yet.</div>`; return; }
+  c.innerHTML=`<table class="posts-table"><thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Views</th><th>Date</th><th>Actions</th></tr></thead><tbody>
+    ${posts.map(p=>`<tr>
+      <td><strong style="color:var(--paper);font-family:'Playfair Display',serif;">${p.featured?'★ ':''}${p.title}</strong></td>
+      <td><span class="post-tag tag-${p.category}">${cap(p.category)}</span></td>
+      <td><button class="btn-publish-toggle status-${p.status||'published'}" onclick="toggleStatus('${p.id}')">${p.status==='draft'?'Draft':'Live'}</button></td>
+      <td>${p.views||0}</td><td>${p.date}</td>
+      <td><button class="btn-edit" onclick="editPost('${p.id}')">Edit</button><button class="btn-danger" onclick="deletePost('${p.id}')">Delete</button></td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+function toggleStatus(id){ const p=posts.find(x=>x.id===id); if(!p) return; p.status=p.status==='draft'?'published':'draft'; save(); renderAdminPosts(); renderPosts(currentFilter); renderFeatured(); }
+function editPost(id){
+  const p=posts.find(x=>x.id===id); if(!p) return;
+  document.getElementById('editing-id').value=id;
+  document.getElementById('f-title').value=p.title||'';
+  document.getElementById('f-cat').value=p.category||'';
+  document.getElementById('f-readtime').value=p.readTime||'';
+  document.getElementById('f-type').value=p.postType||'';
+  document.getElementById('f-casenum').value=p.caseNum||'';
+  document.getElementById('f-excerpt').value=p.excerpt||'';
+  document.getElementById('f-content').value=p.content||'';
+  document.getElementById('f-featured').value=p.featured?'1':'0';
+  currentTags=[...(p.tags||[])]; renderTagChips();
+  switchPanel('write'); document.getElementById('panel-heading').textContent='Edit Post';
+}
+function deletePost(id){
+  if(!confirm('Delete this post?')) return;
+  posts=posts.filter(p=>p.id!==id); save();
+  renderAdminPosts(); renderPosts(currentFilter); renderFeatured();
+  showAlert('posts-alert','Post deleted.','success');
+}
+
+// STATS
+function renderStats(){
+  document.getElementById('s-posts').textContent=published().length;
+  document.getElementById('s-drafts').textContent=posts.filter(p=>p.status==='draft').length;
+  document.getElementById('s-views').textContent=posts.reduce((s,p)=>s+(p.views||0),0);
+  document.getElementById('s-subs').textContent=subscribers.length;
+  const top=[...published()].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,5);
+  document.getElementById('top-posts').innerHTML=top.length
+    ?`<table class="posts-table"><thead><tr><th>Title</th><th>Category</th><th>Views</th></tr></thead><tbody>${top.map(p=>`<tr><td><strong style="color:var(--paper)">${p.title}</strong></td><td><span class="post-tag tag-${p.category}">${cap(p.category)}</span></td><td>${p.views||0}</td></tr>`).join('')}</tbody></table>`
+    :`<p style="font-family:'Crimson Text',serif;font-style:italic;color:var(--paper-muted);">Publish some articles first.</p>`;
+}
+
+// ALERTS
+function showAlert(elId,msg,type){ const el=document.getElementById(elId); if(!el) return; el.innerHTML=`<div class="alert alert-${type}">${msg}</div>`; setTimeout(()=>el.innerHTML='',4000); }
+
+// UTILS
+function cap(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):''; }
+function postTypeLabel(t){ return t==='case-study'?'Case Study':t==='research-note'?'Research Note':''; }
+
+// INIT
+renderReadingStack();
+renderPosts('all');
+renderFeatured();
+updateCounts();
+</script>
+</body>
+</html>
